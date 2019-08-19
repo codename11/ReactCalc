@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./style.scss";
 
-let arr = [];
 class Calculator  extends React.Component {
 
     constructor(props) {
@@ -23,6 +22,7 @@ class Calculator  extends React.Component {
         this.secondNum = this.secondNum.bind(this);
         this.equal = this.equal.bind(this);
         this.calculate = this.calculate.bind(this);
+        this.erase = this.erase.bind(this);
     }
 
     handleClick(e){
@@ -31,7 +31,7 @@ class Calculator  extends React.Component {
         pressed = e.target.value;
 
         if(this.firstNum(pressed) && this.state.firstNum === false){
-            arr.push(this.firstNum(pressed));
+            
             this.setState({
                 display: this.state.display===0 ? this.firstNum(pressed) : this.state.display+this.firstNum(pressed),
             });
@@ -39,7 +39,7 @@ class Calculator  extends React.Component {
 
         if(this.operator(pressed) && this.state.secondNum === false && this.state.operator === false){
             /*Checks if operator exists, if it not exists, puts one.*/
-            arr.push(this.operator(pressed));
+
             this.setState({
                 typeOfOperator: this.operator(pressed),
                 operator: true,
@@ -51,8 +51,6 @@ class Calculator  extends React.Component {
 
         if(this.operator(pressed) && this.state.secondNum === false && this.state.operator === true){
             /*Checks if operator exists, if it exists, changes it with other one.*/
-            arr.pop();
-            arr.push(this.operator(pressed));
 
             this.setState({
                 typeOfOperator: this.operator(pressed),
@@ -60,25 +58,71 @@ class Calculator  extends React.Component {
                 firstNum: true,
                 display: this.state.display.substring(0,this.state.display.length-1)+this.operator(pressed),
             });
-
+            
         }
 
         if(this.secondNum(pressed) && this.state.firstNum === true && this.state.secondNum === false && this.state.equalSign === false){
 
-            arr.push(this.secondNum(pressed));
             this.setState({
+                secondNum: true,
                 display: this.state.display===0 ? this.secondNum(pressed) : this.state.display+this.secondNum(pressed),
             });
 
         }
 
-        if(this.equal(pressed) && this.state.firstNum === true && this.state.operator === true && this.state.secondNum === true){
+        if(this.equal(pressed) && this.state.firstNum === true && this.state.operator === true && this.state.secondNum === true && this.state.equalSign === false){
+
+            this.setState({
+                firstNum: true,
+                secondNum: false,
+                operator: false,
+                typeOfOperator: null,
+                equalSign: false,
+                display: 0,
+            });
             
-            arr.push(this.equal(pressed));
+        }
+
+        if(this.operator(pressed) && this.state.firstNum===true && this.state.operator===false && this.state.secondNum===false){
             
+            this.setState({
+                operator: true,
+                typeOfOperator: this.operator(pressed),
+                display: this.state.result+this.operator(pressed),
+                result: 0,
+            });
+
+        }
+
+        if(this.operator(pressed) && this.state.display.length>0 && this.state.firstNum===true && this.state.operator===true && this.state.secondNum===true){
+
+            this.setState({
+                firstNum: true,
+                secondNum: false,
+                operator: true,
+                typeOfOperator: this.operator(pressed),
+                equalSign: false,
+                display: this.calculate()+this.operator(pressed),
+                result: this.calculate()
+            });
+
         }
         
 	}
+
+    erase(){
+        
+        this.setState({
+            firstNum: false,
+            secondNum: false,
+            operator: false,
+            typeOfOperator: null,
+            display: 0,
+            equalSign: false,
+            result: null
+        });
+
+    }
 
     firstNum(num){
 
@@ -115,7 +159,7 @@ class Calculator  extends React.Component {
                 return num;
 
             default:
-              console.log("Not an number!");
+              //console.log("Not an number!");
               return null;
           
         }
@@ -134,7 +178,7 @@ class Calculator  extends React.Component {
             case "/":
                 return operator;
             default:
-                console.log("Not an operator!");
+                //console.log("Not an operator!");
                 return null;
           }
 
@@ -175,7 +219,7 @@ class Calculator  extends React.Component {
                 return num;
 
             default:
-              console.log("Not an number!");
+              //console.log("Not an number!");
               return null;
           
         }
@@ -196,14 +240,14 @@ class Calculator  extends React.Component {
                 return operator;
 
             default:
-                console.log("Not an equal sign!");
+                //console.log("Not an equal sign!");
                 return null;
           }
           
     }
 
     calculate(){
-        return eval(this.state.display);  
+        return new Function('return ' + this.state.display)();  
     }
 
     render(){
@@ -211,9 +255,9 @@ class Calculator  extends React.Component {
         
         return(
             <div id="calculator" className="grid-container cent">
-                <div className="item1x1">{this.state.result ? this.state.result : this.state.display}</div>
-                <div className="item1x2">{this.state.firstNumber}</div>
-                <button className="drum-pad metal linear item2" value="AC" onClick={this.handleClick}>AC</button>
+                <div className="item1x1">{this.state.result ? this.state.result : ""}</div>
+                <div className="item1x2">{this.state.display}</div>
+                <button className="drum-pad metal linear item2" value="AC" onClick={this.erase}>AC</button>
                 <button className="drum-pad metal linear" value="/" onClick={this.handleClick}>/</button>
                 <button className="drum-pad metal linear" value="*" onClick={this.handleClick}>*</button>
                 <button className="drum-pad metal linear" value="7" onClick={this.handleClick}>7</button>
