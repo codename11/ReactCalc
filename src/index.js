@@ -2,6 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./style.scss";
+import Display from "./display.js";
+import Result from "./result.js";
+import Btn from "./button.js";
 
 class Calculator  extends React.Component {
 
@@ -14,7 +17,9 @@ class Calculator  extends React.Component {
             typeOfOperator: null,
             display: 0,
             equalSign: false,
-            result: null
+            result: null,
+            dot1: false,
+            dot2: false,
 		};
 		this.handleClick = this.handleClick.bind(this);
         this.firstNum = this.firstNum.bind(this);
@@ -22,7 +27,6 @@ class Calculator  extends React.Component {
         this.secondNum = this.secondNum.bind(this);
         this.equal = this.equal.bind(this);
         this.calculate = this.calculate.bind(this);
-        this.erase = this.erase.bind(this);
     }
 
     handleClick(e){
@@ -30,11 +34,50 @@ class Calculator  extends React.Component {
         let pressed;
         pressed = e.target.value;
 
+        if(pressed==="AC"){
+            this.setState({
+                firstNum: false,
+                secondNum: false,
+                operator: false,
+                typeOfOperator: null,
+                display: 0,
+                equalSign: false,
+                result: null
+            });
+        }
+        
         if(this.firstNum(pressed) && this.state.firstNum === false){
             
             this.setState({
                 display: this.state.display===0 ? this.firstNum(pressed) : this.state.display+this.firstNum(pressed),
             });
+            
+        }
+        
+        if(pressed==="." && this.state.display===0 && this.state.firstNum === false){
+            
+            this.setState({
+                display: this.state.display===0 ? this.state.display+pressed : this.state.display+pressed,
+            });
+
+        }
+
+        if(pressed==="." && this.state.display.length>0 && this.state.firstNum === false && this.state.dot1 === false){
+            
+            this.setState({
+                display: this.state.display===0 ? this.state.display+pressed : this.state.display+pressed,
+                dot1: true,
+            });
+
+        }
+
+        if(pressed==="." && this.state.firstNum === true && this.state.secondNum === false && this.state.equalSign===false && this.state.dot2 === false){
+            
+            this.setState({
+                display: this.state.display===0 ? this.state.display+pressed : this.state.display+pressed,
+                dot2: true,
+            });
+
         }
 
         if(this.operator(pressed) && this.state.secondNum === false && this.state.operator === false){
@@ -64,10 +107,9 @@ class Calculator  extends React.Component {
         if(this.secondNum(pressed) && this.state.firstNum === true && this.state.secondNum === false && this.state.equalSign === false){
 
             this.setState({
-                secondNum: true,
                 display: this.state.display===0 ? this.secondNum(pressed) : this.state.display+this.secondNum(pressed),
             });
-
+            
         }
 
         if(this.equal(pressed) && this.state.firstNum === true && this.state.operator === true && this.state.secondNum === true && this.state.equalSign === false){
@@ -108,20 +150,6 @@ class Calculator  extends React.Component {
 
         }
         
-	}
-
-    erase(){
-        
-        this.setState({
-            firstNum: false,
-            secondNum: false,
-            operator: false,
-            typeOfOperator: null,
-            display: 0,
-            equalSign: false,
-            result: null
-        });
-
     }
 
     firstNum(num){
@@ -247,33 +275,92 @@ class Calculator  extends React.Component {
     }
 
     calculate(){
+        // eslint-disable-next-line
         return new Function('return ' + this.state.display)();  
     }
 
     render(){
         console.log(this.state);
-        
+        const mainClass = "drum-pad metal linear ";
+
+        const btn = [
+            {
+                id:"clear", value:"AC"
+            },
+            {
+                id:"divide", value:"/"
+            },
+            {
+                id:"multiply", value:"*"
+            },
+            {
+                id:"seven", value:"7"
+            },
+            {
+                id:"eight", value:"8"
+            },
+            {
+                id:"nine", value:"9"
+            },
+            {
+                id:"subtract", value:"-"
+            },
+            {
+                id:"four", value:"4"
+            },
+            {
+                id:"five", value:"5"
+            },
+            {
+                id:"six", value:"6"
+            },
+            {
+                id:"add", value:"+"
+            },
+            {
+                id:"one", value:"1"
+            },
+            {
+                id:"two", value:"2"
+            },
+            {
+                id:"three", value:"3"
+            },
+            {
+                id:"equals", value:"="
+            },
+            {
+                id:"zero", value:"0"
+            },
+            {
+                id:"decimal", value:"."
+            },
+
+
+        ];
+        const buttons = btn.map((item,i) => {
+
+            if(i===0){
+                return <Btn klasa={mainClass+"item2"} id={item.id} key={i} value={item.value} onClick={this.handleClick} text={item.value} />
+            }
+            else if(i===14){
+                return <Btn klasa={mainClass+"item3"} id={item.id} key={i} value={item.value} onClick={this.handleClick} text={item.value} />
+            }
+            else if(i===15){
+                return <Btn klasa={mainClass+"item4"} id={item.id} key={i} value={item.value} onClick={this.handleClick} text={item.value} />
+            }
+            else{
+                return <Btn klasa={mainClass} id={item.id} key={i} value={item.value} onClick={this.handleClick} text={item.value} />
+            }
+            
+
+        });
+console.log(buttons);
         return(
             <div id="calculator" className="grid-container cent">
-                <div className="item1x1">{this.state.result ? this.state.result : ""}</div>
-                <div className="item1x2">{this.state.display}</div>
-                <button className="drum-pad metal linear item2" value="AC" onClick={this.erase}>AC</button>
-                <button className="drum-pad metal linear" value="/" onClick={this.handleClick}>/</button>
-                <button className="drum-pad metal linear" value="*" onClick={this.handleClick}>*</button>
-                <button className="drum-pad metal linear" value="7" onClick={this.handleClick}>7</button>
-                <button className="drum-pad metal linear" value="8" onClick={this.handleClick}>8</button>
-                <button className="drum-pad metal linear" value="9" onClick={this.handleClick}>9</button>
-                <button className="drum-pad metal linear" value="-" onClick={this.handleClick}>-</button>
-                <button className="drum-pad metal linear" value="4" onClick={this.handleClick}>4</button>
-                <button className="drum-pad metal linear" value="5" onClick={this.handleClick}>5</button>
-                <button className="drum-pad metal linear" value="6" onClick={this.handleClick}>6</button>
-                <button className="drum-pad metal linear" value="+" onClick={this.handleClick}>+</button>
-                <button className="drum-pad metal linear" value="1" onClick={this.handleClick}>1</button>
-                <button className="drum-pad metal linear" value="2" onClick={this.handleClick}>2</button>
-                <button className="drum-pad metal linear" value="3" onClick={this.handleClick}>3</button>
-                <button className="drum-pad metal linear item3" value="=" onClick={this.handleClick}>=</button>
-                <button className="drum-pad metal linear item4" value="0" onClick={this.handleClick}>0</button>
-                <button className="drum-pad metal linear" value="." onClick={this.handleClick}>.</button>
+                <Result klasa="item1x1" result={this.state.result ? this.state.result : ""}/>
+                <Display klasa="item1x2" id="display" displayNums={this.state.display}/>
+                {buttons}
             </div>
         );
     }
