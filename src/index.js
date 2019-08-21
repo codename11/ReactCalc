@@ -12,7 +12,9 @@ class Calculator  extends React.Component {
 		super(props);
 		this.state = {
             firstNum: false,
+            num1: 0,
             secondNum: false,
+            num2: 0,
             operator: false,
             typeOfOperator: null,
             display: 0,
