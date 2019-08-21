@@ -34,122 +34,10 @@ class Calculator  extends React.Component {
         let pressed;
         pressed = e.target.value;
 
-        if(pressed==="AC"){
-            this.setState({
-                firstNum: false,
-                secondNum: false,
-                operator: false,
-                typeOfOperator: null,
-                display: 0,
-                equalSign: false,
-                result: null
-            });
-        }
-        
-        if(this.firstNum(pressed) && this.state.firstNum === false){
-            
-            this.setState({
-                display: this.state.display===0 ? this.firstNum(pressed) : this.state.display+this.firstNum(pressed),
-            });
-            
-        }
-        
-        if(pressed==="." && this.state.display===0 && this.state.firstNum === false){
-            
-            this.setState({
-                display: this.state.display===0 ? this.state.display+pressed : this.state.display+pressed,
-            });
+        this.setState({
+            display: pressed, 
+        });
 
-        }
-
-        if(pressed==="." && this.state.display.length>0 && this.state.firstNum === false && this.state.dot1 === false){
-            
-            this.setState({
-                display: this.state.display===0 ? this.state.display+pressed : this.state.display+pressed,
-                dot1: true,
-            });
-
-        }
-
-        if(pressed==="." && this.state.firstNum === true && this.state.secondNum === false && this.state.equalSign===false && this.state.dot2 === false){
-            
-            this.setState({
-                display: this.state.display===0 ? this.state.display+pressed : this.state.display+pressed,
-                dot2: true,
-            });
-
-        }
-
-        if(this.operator(pressed) && this.state.secondNum === false && this.state.operator === false){
-            /*Checks if operator exists, if it not exists, puts one.*/
-
-            this.setState({
-                typeOfOperator: this.operator(pressed),
-                operator: true,
-                firstNum: true,
-                display: this.state.display+this.operator(pressed),
-            });
-
-        }
-
-        if(this.operator(pressed) && this.state.secondNum === false && this.state.operator === true){
-            /*Checks if operator exists, if it exists, changes it with other one.*/
-
-            this.setState({
-                typeOfOperator: this.operator(pressed),
-                operator: true,
-                firstNum: true,
-                display: this.state.display.substring(0,this.state.display.length-1)+this.operator(pressed),
-            });
-            
-        }
-
-        if(this.secondNum(pressed) && this.state.firstNum === true && this.state.secondNum === false && this.state.equalSign === false){
-
-            this.setState({
-                display: this.state.display===0 ? this.secondNum(pressed) : this.state.display+this.secondNum(pressed),
-            });
-            
-        }
-
-        if(this.equal(pressed) && this.state.firstNum === true && this.state.operator === true && this.state.secondNum === true && this.state.equalSign === false){
-
-            this.setState({
-                firstNum: true,
-                secondNum: false,
-                operator: false,
-                typeOfOperator: null,
-                equalSign: false,
-                display: 0,
-            });
-            
-        }
-
-        if(this.operator(pressed) && this.state.firstNum===true && this.state.operator===false && this.state.secondNum===false){
-            
-            this.setState({
-                operator: true,
-                typeOfOperator: this.operator(pressed),
-                display: this.state.result+this.operator(pressed),
-                result: 0,
-            });
-
-        }
-
-        if(this.operator(pressed) && this.state.display.length>0 && this.state.firstNum===true && this.state.operator===true && this.state.secondNum===true){
-
-            this.setState({
-                firstNum: true,
-                secondNum: false,
-                operator: true,
-                typeOfOperator: this.operator(pressed),
-                equalSign: false,
-                display: this.calculate()+this.operator(pressed),
-                result: this.calculate()
-            });
-
-        }
-        
     }
 
     firstNum(num){
@@ -336,7 +224,6 @@ class Calculator  extends React.Component {
                 id:"decimal", value:"."
             },
 
-
         ];
         const buttons = btn.map((item,i) => {
 
@@ -352,14 +239,13 @@ class Calculator  extends React.Component {
             else{
                 return <Btn klasa={mainClass} id={item.id} key={i} value={item.value} onClick={this.handleClick} text={item.value} />
             }
-            
 
         });
-console.log(buttons);
+
         return(
             <div id="calculator" className="grid-container cent">
-                <Result klasa="item1x1" result={this.state.result ? this.state.result : ""}/>
                 <Display klasa="item1x2" id="display" displayNums={this.state.display}/>
+                <Result klasa="item1x1" result={this.state.result}/>
                 {buttons}
             </div>
         );
