@@ -12,9 +12,9 @@ class Calculator  extends React.Component {
 		super(props);
 		this.state = {
             firstNum: false,
-            num1: 0,
+            num1: "",
             secondNum: false,
-            num2: 0,
+            num2: "",
             operator: false,
             typeOfOperator: null,
             display: 0,
@@ -24,9 +24,8 @@ class Calculator  extends React.Component {
             dot2: false,
 		};
 		this.handleClick = this.handleClick.bind(this);
-        this.firstNum = this.firstNum.bind(this);
+        this.ifNum = this.ifNum.bind(this);
         this.operator = this.operator.bind(this);
-        this.secondNum = this.secondNum.bind(this);
         this.equal = this.equal.bind(this);
         this.calculate = this.calculate.bind(this);
     }
@@ -36,13 +35,87 @@ class Calculator  extends React.Component {
         let pressed;
         pressed = e.target.value;
 
-        this.setState({
-            display: pressed, 
-        });
+        if(this.state.num1==="" && this.state.num1.length===0 && ((pressed==="-") || (pressed==="0") || (pressed==="1") || (pressed==="2") || (pressed==="3") || (pressed==="4") || (pressed==="5") || (pressed==="6") || (pressed==="7") || (pressed==="8") || (pressed==="9")) && this.state.firstNum === false){
+
+            this.setState({
+                num1: this.state.num1+pressed, 
+            });
+            
+        }
+
+        if(this.state.num1==="" && this.state.num1.length===0 && ((pressed==="0") || (pressed==="1") || (pressed==="2") || (pressed==="3") || (pressed==="4") || (pressed==="5") || (pressed==="6") || (pressed==="7") || (pressed==="8") || (pressed==="9")) && this.state.firstNum === false){
+
+            this.setState({
+                num1: this.state.num1+pressed, 
+            });
+            
+        }
+
+        if(this.state.num1!=="" && this.state.num1.length>0 && this.state.num1[this.state.num1.length-1] === "-" && ((pressed==="0") || (pressed==="1") || (pressed==="2") || (pressed==="3") || (pressed==="4") || (pressed==="5") || (pressed==="6") || (pressed==="7") || (pressed==="8") || (pressed==="9")) && this.state.firstNum === false){
+
+            this.setState({
+                num1: this.state.num1+pressed, 
+            });
+            
+        }
+
+        //console.log((this.state.num1[this.state.num1.length-1] === ".") +": "+this.state.num1[this.state.num1.length-1]);
+        if(this.state.num1!=="" && this.state.num1.length>0 && ((this.state.num1[this.state.num1.length-1]==="0") || (this.state.num1[this.state.num1.length-1]==="1") || (this.state.num1[this.state.num1.length-1]==="2") || (this.state.num1[this.state.num1.length-1]==="3") || (this.state.num1[this.state.num1.length-1]==="4") || (this.state.num1[this.state.num1.length-1]==="5") || (this.state.num1[this.state.num1.length-1]==="6") || (this.state.num1[this.state.num1.length-1]==="7") || (this.state.num1[this.state.num1.length-1]==="8") || (this.state.num1[this.state.num1.length-1]==="9")) && pressed === "." && this.state.dot1 === false && this.state.firstNum === false){
+        
+            this.setState({
+                num1: this.state.num1+pressed, 
+                dot1: true
+            });
+            
+        }
+
+        // ((this.state.num1[this.state.num1.length-1]==="0") || (this.state.num1[this.state.num1.length-1]==="1") || (this.state.num1[this.state.num1.length-1]==="2") || (this.state.num1[this.state.num1.length-1]==="3") || (this.state.num1[this.state.num1.length-1]==="4") || (this.state.num1[this.state.num1.length-1]==="5") || (this.state.num1[this.state.num1.length-1]==="6") || (this.state.num1[this.state.num1.length-1]==="7") || (this.state.num1[this.state.num1.length-1]==="8") || (this.state.num1[this.state.num1.length-1]==="9"))
+        // ((pressed==="0") || (pressed==="1") || (pressed==="2") || (pressed==="3") || (pressed==="4") || (pressed==="5") || (pressed==="6") || (pressed==="7") || (pressed==="8") || (pressed==="9"))
+        // ((pressed === "+") || (pressed === "-") || (pressed === "*") || (pressed === "/"))
+        // ((this.state.num1[this.state.num1.length-1] === "+") || (this.state.num1[this.state.num1.length-1] === "-") || (this.state.num1[this.state.num1.length-1] === "*") || (this.state.num1[this.state.num1.length-1] === "/"))
+        if(this.state.dot1 === true && ((pressed==="0") || (pressed==="1") || (pressed==="2") || (pressed==="3") || (pressed==="4") || (pressed==="5") || (pressed==="6") || (pressed==="7") || (pressed==="8") || (pressed==="9")) && this.state.firstNum === false){
+            
+            this.setState({
+                num1: this.state.num1+pressed, 
+            });
+
+        }
+
+        if(((this.state.num1[this.state.num1.length-1]==="0") || (this.state.num1[this.state.num1.length-1]==="1") || (this.state.num1[this.state.num1.length-1]==="2") || (this.state.num1[this.state.num1.length-1]==="3") || (this.state.num1[this.state.num1.length-1]==="4") || (this.state.num1[this.state.num1.length-1]==="5") || (this.state.num1[this.state.num1.length-1]==="6") || (this.state.num1[this.state.num1.length-1]==="7") || (this.state.num1[this.state.num1.length-1]==="8") || (this.state.num1[this.state.num1.length-1]==="9")) && ((pressed === "+") || (pressed === "-") || (pressed === "*") || (pressed === "/")) && pressed !== "." && this.state.firstNum === false){
+
+            this.setState({
+                num1: this.state.num1+pressed, 
+            });
+
+        }
+
+        // minus broj tacka broj znak
+        if(((this.state.num1[this.state.num1.length-1] === "+") || (this.state.num1[this.state.num1.length-1] === "-") || (this.state.num1[this.state.num1.length-1] === "*") || (this.state.num1[this.state.num1.length-1] === "/")) && ((pressed === "+") || (pressed === "-") || (pressed === "*") || (pressed === "/"))){
+
+            this.setState({
+                num1: this.state.num1.substr(0, this.state.num1.length-1)+pressed, 
+                operator: true,
+                typeOfOperator: pressed,
+                display: this.state.num1,
+            });
+
+        }
+
+        if(this.state.num1.length>1 && ((this.state.num1[this.state.num1.length-1]==="0") || (this.state.num1[this.state.num1.length-1]==="1") || (this.state.num1[this.state.num1.length-1]==="2") || (this.state.num1[this.state.num1.length-1]==="3") || (this.state.num1[this.state.num1.length-1]==="4") || (this.state.num1[this.state.num1.length-1]==="5") || (this.state.num1[this.state.num1.length-1]==="6") || (this.state.num1[this.state.num1.length-1]==="7") || (this.state.num1[this.state.num1.length-1]==="8") || (this.state.num1[this.state.num1.length-1]==="9")) && ((pressed === "+") || (pressed === "-") || (pressed === "*") || (pressed === "/"))){
+
+            this.setState({
+                firstNum: true,
+            });
+
+        }
+
+        /*  Ukoliko je zadnji karakter u this.state.num1 neki znak, this.state.operator===true, 
+            this.state.firstNum===true, onda treba da pocne ubacivanje u this.state.num2.
+        */
 
     }
 
-    firstNum(num){
+    ifNum(num){
 
         switch(num) {
 
@@ -102,59 +175,11 @@ class Calculator  extends React.Component {
 
     }
 
-    secondNum(num){
-
-        switch(num) {
-
-            case "0":
-              return num;
-
-            case "1":
-                return num;
-
-            case "2":
-                return num;
-
-            case "3":
-                return num;
-
-            case "4":
-                return num;
-
-            case "5":
-                return num;
-
-            case "6":
-                return num;
-
-            case "7":
-                return num;
-
-            case "8":
-                return num;
-
-            case "9":
-                return num;
-
-            default:
-              //console.log("Not an number!");
-              return null;
-          
-        }
-
-    }
-
     equal(operator){
 
         switch(operator) {
             
             case "=":
-                this.setState({
-                    equalSign: true,
-                    secondNum: true,
-                    result: this.calculate()
-                });
-                
                 return operator;
 
             default:
@@ -171,8 +196,9 @@ class Calculator  extends React.Component {
 
     render(){
         console.log(this.state);
+        //console.log("****");
+        //console.log("****");
         const mainClass = "drum-pad metal linear ";
-
         const btn = [
             {
                 id:"clear", value:"AC"
@@ -244,9 +270,11 @@ class Calculator  extends React.Component {
 
         });
 
+        const display = this.state.num1;
+
         return(
             <div id="calculator" className="grid-container cent">
-                <Display klasa="item1x2" id="display" displayNums={this.state.display}/>
+                <Display klasa="item1x2" id="display" displayNums={display ? display : "0"}/>
                 <Result klasa="item1x1" result={this.state.result}/>
                 {buttons}
             </div>
