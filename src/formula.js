@@ -1,14 +1,14 @@
 import React from 'react';
 
-class Result extends React.Component{
+class Formula extends React.Component{
 
     render(){ 
 		return (
 			<div className={this.props.klasa}>
-				{this.props.result}
+				{this.props.formula}
 			</div>
 		);  
 	}
 }
 
-export default Result;
+export default Formula;
