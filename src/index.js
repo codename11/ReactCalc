@@ -35,6 +35,7 @@ class Calculator  extends React.Component {
         pressed = e.target.value;
 
         if(pressed !== "" && this.state.display === 0){
+            
             console.log("1");
             this.setState({
                 display: "",
@@ -52,6 +53,7 @@ class Calculator  extends React.Component {
         }
 
         if(this.state.num1==="" && this.state.num1.length===0 && ((pressed==="0") || (pressed==="1") || (pressed==="2") || (pressed==="3") || (pressed==="4") || (pressed==="5") || (pressed==="6") || (pressed==="7") || (pressed==="8") || (pressed==="9")) && this.state.firstNum === false){
+            
             console.log("3");
             this.setState({
                 num1: this.state.num1+pressed, 
@@ -62,6 +64,7 @@ class Calculator  extends React.Component {
         }
 
         if(this.state.num1!=="" && this.state.num1.length>0 && this.state.num1[this.state.num1.length-1] === "-" && ((pressed==="0") || (pressed==="1") || (pressed==="2") || (pressed==="3") || (pressed==="4") || (pressed==="5") || (pressed==="6") || (pressed==="7") || (pressed==="8") || (pressed==="9")) && this.state.firstNum === false){
+            
             console.log("4");
             this.setState({
                 num1: this.state.num1+pressed, 
@@ -72,6 +75,7 @@ class Calculator  extends React.Component {
         }
 
         if(this.state.num1!=="" && this.state.num1.length>0 && ((this.state.num1[this.state.num1.length-1]==="0") || (this.state.num1[this.state.num1.length-1]==="1") || (this.state.num1[this.state.num1.length-1]==="2") || (this.state.num1[this.state.num1.length-1]==="3") || (this.state.num1[this.state.num1.length-1]==="4") || (this.state.num1[this.state.num1.length-1]==="5") || (this.state.num1[this.state.num1.length-1]==="6") || (this.state.num1[this.state.num1.length-1]==="7") || (this.state.num1[this.state.num1.length-1]==="8") || (this.state.num1[this.state.num1.length-1]==="9")) && pressed === "." && this.state.dot1 === false && this.state.firstNum === false){
+            
             console.log("5");
             this.setState({
                 num1: this.state.num1+pressed, 
@@ -88,6 +92,7 @@ class Calculator  extends React.Component {
         // ((this.state.num1[this.state.num1.length-1] === "+") || (this.state.num1[this.state.num1.length-1] === "-") || (this.state.num1[this.state.num1.length-1] === "*") || (this.state.num1[this.state.num1.length-1] === "/"))
         
         if(this.state.dot1 === true && ((pressed==="0") || (pressed==="1") || (pressed==="2") || (pressed==="3") || (pressed==="4") || (pressed==="5") || (pressed==="6") || (pressed==="7") || (pressed==="8") || (pressed==="9")) && this.state.firstNum === false && this.state.operator === false){
+           
             console.log("6");
             this.setState({
                 num1: this.state.num1+pressed, 
@@ -98,6 +103,7 @@ class Calculator  extends React.Component {
         }
 
         if(((this.state.num1[this.state.num1.length-1]==="0") || (this.state.num1[this.state.num1.length-1]==="1") || (this.state.num1[this.state.num1.length-1]==="2") || (this.state.num1[this.state.num1.length-1]==="3") || (this.state.num1[this.state.num1.length-1]==="4") || (this.state.num1[this.state.num1.length-1]==="5") || (this.state.num1[this.state.num1.length-1]==="6") || (this.state.num1[this.state.num1.length-1]==="7") || (this.state.num1[this.state.num1.length-1]==="8") || (this.state.num1[this.state.num1.length-1]==="9")) && ((pressed === "+") || (pressed === "-") || (pressed === "*") || (pressed === "/")) && pressed !== "." && this.state.firstNum === false && this.state.operator === false){
+            
             console.log("7");
             this.setState({
                 num1: this.state.num1+pressed, 
@@ -111,6 +117,7 @@ class Calculator  extends React.Component {
 
         // minus broj tacka broj znak
         if(((this.state.num1[this.state.num1.length-1] === "+") || (this.state.num1[this.state.num1.length-1] === "-") || (this.state.num1[this.state.num1.length-1] === "*") || (this.state.num1[this.state.num1.length-1] === "/")) && ((pressed === "+") || (pressed === "-") || (pressed === "*") || (pressed === "/")) && this.state.operator === false){
+            
             console.log("8");
             this.setState({
                 num1: this.state.num1.substr(0, this.state.num1.length-1)+pressed, 
@@ -125,6 +132,7 @@ class Calculator  extends React.Component {
         
 
         if(this.state.num1.length>1 && ((this.state.num1[this.state.num1.length-1]==="0") || (this.state.num1[this.state.num1.length-1]==="1") || (this.state.num1[this.state.num1.length-1]==="2") || (this.state.num1[this.state.num1.length-1]==="3") || (this.state.num1[this.state.num1.length-1]==="4") || (this.state.num1[this.state.num1.length-1]==="5") || (this.state.num1[this.state.num1.length-1]==="6") || (this.state.num1[this.state.num1.length-1]==="7") || (this.state.num1[this.state.num1.length-1]==="8") || (this.state.num1[this.state.num1.length-1]==="9")) && ((pressed === "+") || (pressed === "-") || (pressed === "*") || (pressed === "/")) && this.state.operator === false){
+            
             console.log("9");
             this.setState({
                 num1: this.state.num1+pressed, 
@@ -143,9 +151,11 @@ class Calculator  extends React.Component {
         */
 
         if(this.state.operatorNum>0 && this.state.num2 === "" && this.state.num2.length === 0 && ((pressed==="0") || (pressed==="1") || (pressed==="2") || (pressed==="3") || (pressed==="4") || (pressed==="5") || (pressed==="6") || (pressed==="7") || (pressed==="8") || (pressed==="9")) && ((this.state.num1[this.state.num1.length-1] === "+") || (this.state.num1[this.state.num1.length-1] === "-") || (this.state.num1[this.state.num1.length-1] === "*") || (this.state.num1[this.state.num1.length-1] === "/"))){
+            
             console.log("10");
             this.setState({
                 operator: true,
+                operatorNum: this.state.operatorNum+1,
                 num2: this.state.num2+pressed, 
                 display: this.state.display+pressed,
                 pressed: pressed,
@@ -154,6 +164,7 @@ class Calculator  extends React.Component {
         }
         
         if(pressed === "." && this.state.dot2 === false && this.state.operatorNum>0 && ((this.state.num2[this.state.num2.length-1]==="0") || (this.state.num2[this.state.num2.length-1]==="1") || (this.state.num2[this.state.num2.length-1]==="2") || (this.state.num2[this.state.num2.length-1]==="3") || (this.state.num2[this.state.num2.length-1]==="4") || (this.state.num2[this.state.num2.length-1]==="5") || (this.state.num2[this.state.num2.length-1]==="6") || (this.state.num2[this.state.num2.length-1]==="7") || (this.state.num2[this.state.num2.length-1]==="8") || (this.state.num2[this.state.num2.length-1]==="9"))){
+            
             console.log("11");
             this.setState({
                 num2: this.state.num2+pressed, 
@@ -165,6 +176,7 @@ class Calculator  extends React.Component {
         }
 
         if(this.state.num2[this.state.num2.length-1] === "." && this.state.dot2 === true && this.state.secondNum === false && ((pressed==="0") || (pressed==="1") || (pressed==="2") || (pressed==="3") || (pressed==="4") || (pressed==="5") || (pressed==="6") || (pressed==="7") || (pressed==="8") || (pressed==="9"))){
+            
             console.log("12");
             this.setState({
                 num2: this.state.num2+pressed,
@@ -175,6 +187,7 @@ class Calculator  extends React.Component {
         }
 
         if(this.state.secondNum === false && ((pressed==="0") || (pressed==="1") || (pressed==="2") || (pressed==="3") || (pressed==="4") || (pressed==="5") || (pressed==="6") || (pressed==="7") || (pressed==="8") || (pressed==="9")) && ((this.state.num2[this.state.num2.length-1]==="0") || (this.state.num2[this.state.num2.length-1]==="1") || (this.state.num2[this.state.num2.length-1]==="2") || (this.state.num2[this.state.num2.length-1]==="3") || (this.state.num2[this.state.num2.length-1]==="4") || (this.state.num2[this.state.num2.length-1]==="5") || (this.state.num2[this.state.num2.length-1]==="6") || (this.state.num2[this.state.num2.length-1]==="7") || (this.state.num2[this.state.num2.length-1]==="8") || (this.state.num2[this.state.num2.length-1]==="9"))){
+            
             console.log("13");
             this.setState({
                 num2: this.state.num2+pressed, 
@@ -185,6 +198,7 @@ class Calculator  extends React.Component {
         }
 
         if(pressed === "=" && this.state.equalSign === false){
+            
             console.log("14");
             this.setState({
                 equalSign: true, 
@@ -192,6 +206,7 @@ class Calculator  extends React.Component {
                 result: this.calculate(this.state.num1+this.state.num2).toFixed(4),
                 display: this.state.display+pressed,
                 operator: true,
+                operatorNum: this.state.operatorNum+1,
                 pressed: pressed,
                 dot2: true,
             });
@@ -200,6 +215,7 @@ class Calculator  extends React.Component {
 
         //If pressed sign after equal.
         if(this.state.equalSign === true && ((pressed === "+") || (pressed === "-") || (pressed === "*") || (pressed === "/"))){
+            
             console.log("15");
             let tmp = (""+(Number(this.state.result).toFixed(4)).replace(/0+$/, ''));
             this.setState({
@@ -216,6 +232,25 @@ class Calculator  extends React.Component {
                 dot1: this.state.num1.indexOf(".")>=0 ? true : false,
                 dot2: false,
                 pressed: pressed,
+            });
+
+        }
+
+        if(this.state.operator === true && this.state.operatorNum > 0 && this.state.equalSign === false && ((pressed === "+") || (pressed === "-") || (pressed === "*") || (pressed === "/"))){
+            
+            console.log("16");
+            let tmp = (""+(Number(this.calculate(this.state.display)).toFixed(4)).replace(/0+$/, ''));
+            this.setState({
+                pressed: pressed,
+                display: tmp+pressed,
+                num1: tmp+pressed,
+                num2: "",
+                operator: true,
+                typeOfOperator: pressed,
+                operatorNum: this.state.operatorNum+1,
+                result: null,
+                secondNum: false,
+                equalSign: false,
             });
 
         }
