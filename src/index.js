@@ -40,6 +40,7 @@ class Calculator  extends React.Component {
             this.setState({
                 display: "",
             });
+
         }
 
         if(this.state.num1==="" && this.state.num1.length===0 && ((pressed==="-") || (pressed==="0") || (pressed==="1") || (pressed==="2") || (pressed==="3") || (pressed==="4") || (pressed==="5") || (pressed==="6") || (pressed==="7") || (pressed==="8") || (pressed==="9")) && this.state.firstNum === false){
@@ -79,8 +80,8 @@ class Calculator  extends React.Component {
 
             console.log("5");
             this.setState({
-                num1: this.state.num1+pressed, 
-                display: this.state.display+pressed,
+                num1: (this.state.num1[this.state.num1.length-1]==="0" && pressed==="0") ? this.state.num1 : this.state.num1+pressed, 
+                display: (this.state.num1[this.state.num1.length-1]==="0" && pressed==="0") ? this.state.num1 : this.state.num1+pressed,
                 pressed: pressed,
             });
 
@@ -124,16 +125,34 @@ class Calculator  extends React.Component {
 
         }
 
-        // minus broj tacka broj znak
         if(((this.state.num1[this.state.num1.length-1] === "+") || (this.state.num1[this.state.num1.length-1] === "-") || (this.state.num1[this.state.num1.length-1] === "*") || (this.state.num1[this.state.num1.length-1] === "/")) && ((pressed === "+") || (pressed === "-") || (pressed === "*") || (pressed === "/")) && this.state.operator === true && this.state.num2 === ""){
-            //Need to check this out. "The sequence "5 * - + 5" = should produce an output of "10". I 5++5=10.
+            
             console.log("9");
+            let num1; 
+            
+            if(pressed==="+" && ((this.state.num1[this.state.num1.length-2]==="*" || this.state.num1[this.state.num1.length-2]==="/" || this.state.num1[this.state.num1.length-2]==="-") && (this.state.num1[this.state.num1.length-1]==="-"))){
+                console.log("9.1");
+                num1 = this.state.num1.substr(0,this.state.num1.length-2)+pressed;
+            }
+            else if((pressed==="+" || pressed==="*" || pressed==="/") && ((this.state.num1[this.state.num1.length-2]==="0") || (this.state.num1[this.state.num1.length-2]==="1") || (this.state.num1[this.state.num1.length-2]==="2") || (this.state.num1[this.state.num1.length-2]==="3") || (this.state.num1[this.state.num1.length-2]==="4") || (this.state.num1[this.state.num1.length-2]==="5") || (this.state.num1[this.state.num1.length-2]==="6") || (this.state.num1[this.state.num1.length-2]==="7") || (this.state.num1[this.state.num1.length-2]==="8") || (this.state.num1[this.state.num1.length-2]==="9")) && (this.state.num1[this.state.num1.length-1]==="+" || this.state.num1[this.state.num1.length-1]==="-" || this.state.num1[this.state.num1.length-1]==="*" || this.state.num1[this.state.num1.length-1]==="/")){
+                console.log("9.2");
+                num1 = this.state.num1.substr(0,this.state.num1.length-1)+pressed;
+            }
+            else if(pressed==="-" && this.state.num1[this.state.num1.length-1]==="+"){
+                console.log("9.3");
+                num1 = this.state.num1.substr(0,this.state.num1.length-1)+pressed;
+            }
+            else if(pressed==="-" && (this.state.num1[this.state.num1.length-1]==="*" || this.state.num1[this.state.num1.length-1]==="/")){
+                console.log("9.3");
+                num1 = this.state.num1+pressed;
+            }
+            
             this.setState({
-                num1: (pressed==="-") ? this.state.display+pressed : ((this.state.display+pressed).substr(0, this.state.num1.length-1)+pressed), 
+                num1: num1, 
                 typeOfOperator: pressed,
                 operator: true,
                 operatorNum: this.state.operatorNum+1,
-                display: (pressed==="-") ? this.state.display+pressed : ((this.state.display+pressed).substr(0, this.state.num1.length-1)+pressed), 
+                display: num1, 
                 pressed: pressed,
             });
             
@@ -152,11 +171,6 @@ class Calculator  extends React.Component {
             });
 
         }
-
-        /*  
-            Ukoliko je zadnji karakter u this.state.num1 neki znak, this.state.operator===true, 
-            this.state.firstNum===true, onda treba da pocne ubacivanje u this.state.num2.
-        */
 
         if(this.state.firstNum === true && this.state.operatorNum>0 && this.state.num2 === "" && this.state.num2.length === 0 && ((pressed==="0") || (pressed==="1") || (pressed==="2") || (pressed==="3") || (pressed==="4") || (pressed==="5") || (pressed==="6") || (pressed==="7") || (pressed==="8") || (pressed==="9")) && ((this.state.num1[this.state.num1.length-1] === "+") || (this.state.num1[this.state.num1.length-1] === "-") || (this.state.num1[this.state.num1.length-1] === "*") || (this.state.num1[this.state.num1.length-1] === "/"))){
             
@@ -207,10 +221,12 @@ class Calculator  extends React.Component {
 
         if(pressed === "=" && this.state.equalSign === false){
 
+            console.log("15");
             let calculated = this.calculate(this.state.num1+this.state.num2).toFixed(4);
+
             let result = calculated ? calculated.replace(/0+$/, '') : "";
             result = ((result[result.length-1] === ".")) ? result.substr(0,result.length-1) : result;
-            console.log("15");
+            
             this.setState({
                 equalSign: true, 
                 secondNum: true,
@@ -248,7 +264,7 @@ class Calculator  extends React.Component {
 
         }
         
-        if(this.state.operator === true && this.state.operatorNum > 0 && this.state.equalSign === false && this.state.firstNum === true && ((this.state.num2[this.state.num2.length-1]==="0") || (this.state.num2[this.state.num2.length-1]==="1") || (this.state.num2[this.state.num2.length-1]==="2") || (this.state.num2[this.state.num2.length-1]==="3") || (this.state.num2[this.state.num2.length-1]==="4") || (this.state.num2[this.state.num2.length-1]==="5") || (this.state.num2[this.state.num2.length-1]==="6") || (this.state.num2[this.state.num2.length-1]==="7") || (this.state.num2[this.state.num2.length-1]==="8") || (this.state.num2[this.state.num2.length-1]==="9")) && ((pressed === "+") || (pressed === "-") || (pressed === "*") || (pressed === "/"))){
+        if(this.state.operator === true && this.state.operatorNum > 0 && this.state.equalSign === false && this.state.firstNum === true && ((this.state.num2[this.state.num2.length-1]==="0") || (this.state.num2[this.state.num2.length-1]==="1") || (this.state.num2[this.state.num2.length-1]==="2") || (this.state.num2[this.state.num2.length-1]==="3") || (this.state.num2[this.state.num2.length-1]==="4") || (this.state.num2[this.state.num2.length-1]==="5") || (this.state.num2[this.state.num2.length-1]==="6") || (this.state.num2[this.state.num2.length-1]==="7") || (this.state.num2[this.state.num2.length-1]==="8") || (this.state.num2[this.state.num2.length-1]==="9")) && ((pressed === "+") || (pressed === "-") || (pressed === "*") || (pressed === "/")) && (this.state.dot2===true || this.state.dot2===false)){
             
             console.log("17");
             let tmp = ((Number(this.calculate(this.state.display)).toFixed(4)).replace(/0+$/, ''));
@@ -264,6 +280,7 @@ class Calculator  extends React.Component {
                 result: null,
                 secondNum: false,
                 equalSign: false,
+                dot2: false,
             });
 
         }
@@ -378,10 +395,36 @@ class Calculator  extends React.Component {
         
         const formula = (this.state.display && ((this.state.display[this.state.display.length-1] !== "+") || (this.state.display[this.state.display.length-1] !== "-") || (this.state.display[this.state.display.length-1] !== "*") || (this.state.display[this.state.display.length-1] !== "/"))) ? this.state.display+(result ? result : "") : (this.state.display[this.state.display.length-1] ? this.state.display[this.state.display.length-1] : "");
         
+        let num1 = this.state.firstNum ? this.state.num1 : this.state.num1;
+        num1 = (num1[num1.length-1]==="+" || num1[num1.length-1]==="-" || num1[num1.length-1]==="*" || num1[num1.length-1]==="/") ? num1.substr(0,num1.length-1) : num1;
+        
+        let sign = (pressed === "+" || pressed === "-" || pressed === "*" || pressed === "/") ? pressed : "";
+        
+        let num2 = this.state.secondNum ? this.state.num2 : this.state.num2;
+        num2 = (num2[num2.length-1]==="+" || num2[num2.length-1]==="-" || num2[num2.length-1]==="*" || num2[num2.length-1]==="/") ? num1.substr(0,num2.length-1) : num2;
+
+        let blah;
+
+        if(num1){
+            blah = num1;
+        }
+        
+        if(sign){
+            blah = sign;
+        }
+        
+        if(num2){
+            blah = num2;
+        }
+
+        if(blah===undefined){
+            blah = "0";
+        }
+
         return(
             <div id="calculator" className="grid-container cent">
                 <Formula klasa={"item1x1"} formula={formula}/>
-                <Display klasa={"item1x2"} id={"display"} displayNums={result ? result : pressed}/>
+                <Display klasa={"item1x2"} id={"display"} displayNums={result ? result : blah}/>
                 {buttons}
             </div>
         );
