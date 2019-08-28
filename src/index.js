@@ -24,15 +24,24 @@ class Calculator  extends React.Component {
             dot1: false,
             dot2: false,
             pressed: "",
-		};
+        };
+        this.handleEvent = this.handleEvent.bind(this);
 		this.handleClick = this.handleClick.bind(this);
         this.calculate = this.calculate.bind(this);
     }
 
-    handleClick(e){
-        
-        let pressed = "";
-        pressed = e.target.value;
+    componentDidMount() {
+        document.addEventListener('keypress', this.handleEvent, false);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('keypress', this.handleEvent, false);
+    }
+
+    handleEvent(e){
+
+        let pressed = "";    
+        pressed = e.target.value ? e.target.value : e.key;
 
         if(pressed !== "" && this.state.display === 0){
             
@@ -40,7 +49,7 @@ class Calculator  extends React.Component {
             this.setState({
                 display: "",
             });
-
+            return;
         }
 
         if(this.state.num1==="" && this.state.num1.length===0 && ((pressed==="-") || (pressed==="0") || (pressed==="1") || (pressed==="2") || (pressed==="3") || (pressed==="4") || (pressed==="5") || (pressed==="6") || (pressed==="7") || (pressed==="8") || (pressed==="9")) && this.state.firstNum === false){
@@ -51,7 +60,7 @@ class Calculator  extends React.Component {
                 display: this.state.display+pressed,
                 pressed: pressed,
             });
-            
+            return;
         }
 
         if(this.state.num1==="" && this.state.num1.length===0 && ((pressed==="0") || (pressed==="1") || (pressed==="2") || (pressed==="3") || (pressed==="4") || (pressed==="5") || (pressed==="6") || (pressed==="7") || (pressed==="8") || (pressed==="9")) && this.state.firstNum === false){
@@ -62,7 +71,7 @@ class Calculator  extends React.Component {
                 display: this.state.display+pressed,
                 pressed: pressed,
             });
-           
+            return;
         }
         
         if(this.state.num1!=="" && this.state.num1.length>0 && this.state.num1[this.state.num1.length-1] === "-" && ((pressed==="0") || (pressed==="1") || (pressed==="2") || (pressed==="3") || (pressed==="4") || (pressed==="5") || (pressed==="6") || (pressed==="7") || (pressed==="8") || (pressed==="9")) && this.state.firstNum === false){
@@ -73,7 +82,7 @@ class Calculator  extends React.Component {
                 display: this.state.display+pressed,
                 pressed: pressed,
             });
-            
+            return;
         }
 
         if(this.state.num1!=="" && this.state.num1.length>0 && this.state.firstNum === false && ((pressed==="0") || (pressed==="1") || (pressed==="2") || (pressed==="3") || (pressed==="4") || (pressed==="5") || (pressed==="6") || (pressed==="7") || (pressed==="8") || (pressed==="9"))){
@@ -84,7 +93,7 @@ class Calculator  extends React.Component {
                 display: (this.state.num1[this.state.num1.length-1]==="0" && pressed==="0") ? this.state.num1 : this.state.num1+pressed,
                 pressed: pressed,
             });
-
+            return;
         }
         
         if(this.state.num1!=="" && this.state.num1.length>0 && ((this.state.num1[this.state.num1.length-1]==="0") || (this.state.num1[this.state.num1.length-1]==="1") || (this.state.num1[this.state.num1.length-1]==="2") || (this.state.num1[this.state.num1.length-1]==="3") || (this.state.num1[this.state.num1.length-1]==="4") || (this.state.num1[this.state.num1.length-1]==="5") || (this.state.num1[this.state.num1.length-1]==="6") || (this.state.num1[this.state.num1.length-1]==="7") || (this.state.num1[this.state.num1.length-1]==="8") || (this.state.num1[this.state.num1.length-1]==="9")) && pressed === "." && this.state.dot1 === false && this.state.firstNum === false){
@@ -96,7 +105,7 @@ class Calculator  extends React.Component {
                 display: this.state.display+pressed,
                 pressed: pressed,
             });
-            
+            return;
         }
 
         if(this.state.dot1 === true && ((pressed==="0") || (pressed==="1") || (pressed==="2") || (pressed==="3") || (pressed==="4") || (pressed==="5") || (pressed==="6") || (pressed==="7") || (pressed==="8") || (pressed==="9")) && this.state.firstNum === false && this.state.operator === false){
@@ -107,7 +116,7 @@ class Calculator  extends React.Component {
                 display: this.state.display+pressed,
                 pressed: pressed,
             });
-
+            return;
         }
 
         if(((this.state.num1[this.state.num1.length-1]==="0") || (this.state.num1[this.state.num1.length-1]==="1") || (this.state.num1[this.state.num1.length-1]==="2") || (this.state.num1[this.state.num1.length-1]==="3") || (this.state.num1[this.state.num1.length-1]==="4") || (this.state.num1[this.state.num1.length-1]==="5") || (this.state.num1[this.state.num1.length-1]==="6") || (this.state.num1[this.state.num1.length-1]==="7") || (this.state.num1[this.state.num1.length-1]==="8") || (this.state.num1[this.state.num1.length-1]==="9")) && ((pressed === "+") || (pressed === "-") || (pressed === "*") || (pressed === "/")) && pressed !== "." && this.state.firstNum === false && this.state.operator === false){
@@ -122,7 +131,7 @@ class Calculator  extends React.Component {
                 operator: true,
                 firstNum: true,
             });
-
+            return;
         }
 
         if(((this.state.num1[this.state.num1.length-1] === "+") || (this.state.num1[this.state.num1.length-1] === "-") || (this.state.num1[this.state.num1.length-1] === "*") || (this.state.num1[this.state.num1.length-1] === "/")) && ((pressed === "+") || (pressed === "-") || (pressed === "*") || (pressed === "/")) && this.state.operator === true && this.state.num2 === ""){
@@ -155,7 +164,7 @@ class Calculator  extends React.Component {
                 display: num1, 
                 pressed: pressed,
             });
-            
+            return;
         }
 
         if(this.state.num1.length>1 && ((this.state.num1[this.state.num1.length-1]==="0") || (this.state.num1[this.state.num1.length-1]==="1") || (this.state.num1[this.state.num1.length-1]==="2") || (this.state.num1[this.state.num1.length-1]==="3") || (this.state.num1[this.state.num1.length-1]==="4") || (this.state.num1[this.state.num1.length-1]==="5") || (this.state.num1[this.state.num1.length-1]==="6") || (this.state.num1[this.state.num1.length-1]==="7") || (this.state.num1[this.state.num1.length-1]==="8") || (this.state.num1[this.state.num1.length-1]==="9")) && ((pressed === "+") || (pressed === "-") || (pressed === "*") || (pressed === "/")) && this.state.operator === false){
@@ -169,7 +178,7 @@ class Calculator  extends React.Component {
                 display: this.state.display+pressed,
                 pressed: pressed,
             });
-
+            return;
         }
 
         if(this.state.firstNum === true && this.state.operatorNum>0 && this.state.num2 === "" && this.state.num2.length === 0 && ((pressed==="0") || (pressed==="1") || (pressed==="2") || (pressed==="3") || (pressed==="4") || (pressed==="5") || (pressed==="6") || (pressed==="7") || (pressed==="8") || (pressed==="9")) && ((this.state.num1[this.state.num1.length-1] === "+") || (this.state.num1[this.state.num1.length-1] === "-") || (this.state.num1[this.state.num1.length-1] === "*") || (this.state.num1[this.state.num1.length-1] === "/"))){
@@ -182,7 +191,7 @@ class Calculator  extends React.Component {
                 display: this.state.display+pressed,
                 pressed: pressed,
             });
-
+            return;
         }
         
         if(pressed === "." && this.state.dot2 === false && this.state.operatorNum>0 && ((this.state.num2[this.state.num2.length-1]==="0") || (this.state.num2[this.state.num2.length-1]==="1") || (this.state.num2[this.state.num2.length-1]==="2") || (this.state.num2[this.state.num2.length-1]==="3") || (this.state.num2[this.state.num2.length-1]==="4") || (this.state.num2[this.state.num2.length-1]==="5") || (this.state.num2[this.state.num2.length-1]==="6") || (this.state.num2[this.state.num2.length-1]==="7") || (this.state.num2[this.state.num2.length-1]==="8") || (this.state.num2[this.state.num2.length-1]==="9"))){
@@ -194,7 +203,7 @@ class Calculator  extends React.Component {
                 display: this.state.display+pressed,
                 pressed: pressed,
             });
-
+            return;
         }
         
         if(this.state.num2[this.state.num2.length-1] === "." && this.state.dot2 === true && this.state.secondNum === false && ((pressed==="0") || (pressed==="1") || (pressed==="2") || (pressed==="3") || (pressed==="4") || (pressed==="5") || (pressed==="6") || (pressed==="7") || (pressed==="8") || (pressed==="9"))){
@@ -205,7 +214,7 @@ class Calculator  extends React.Component {
                 display: this.state.display+pressed,
                 pressed: pressed,
             });
-
+            return;
         }
 
         if(this.state.secondNum === false && ((pressed==="0") || (pressed==="1") || (pressed==="2") || (pressed==="3") || (pressed==="4") || (pressed==="5") || (pressed==="6") || (pressed==="7") || (pressed==="8") || (pressed==="9")) && ((this.state.num2[this.state.num2.length-1]==="0") || (this.state.num2[this.state.num2.length-1]==="1") || (this.state.num2[this.state.num2.length-1]==="2") || (this.state.num2[this.state.num2.length-1]==="3") || (this.state.num2[this.state.num2.length-1]==="4") || (this.state.num2[this.state.num2.length-1]==="5") || (this.state.num2[this.state.num2.length-1]==="6") || (this.state.num2[this.state.num2.length-1]==="7") || (this.state.num2[this.state.num2.length-1]==="8") || (this.state.num2[this.state.num2.length-1]==="9"))){
@@ -216,7 +225,7 @@ class Calculator  extends React.Component {
                 display: this.state.display+pressed,
                 pressed: pressed,
             });
-
+            return;
         }
 
         if(pressed === "=" && this.state.equalSign === false){
@@ -238,7 +247,7 @@ class Calculator  extends React.Component {
                 dot1: this.state.num1.indexOf(".")>=0 ? true : false,
                 dot2: this.state.num2.indexOf(".")>=0 ? true : false,
             });
-            
+            return;
         }
 
         //If pressed sign after equal.
@@ -261,7 +270,7 @@ class Calculator  extends React.Component {
                 dot2: this.state.num2.indexOf(".")>=0 ? true : false,
                 pressed: pressed,
             });
-
+            return;
         }
         
         if(this.state.operator === true && this.state.operatorNum > 0 && this.state.equalSign === false && this.state.firstNum === true && ((this.state.num2[this.state.num2.length-1]==="0") || (this.state.num2[this.state.num2.length-1]==="1") || (this.state.num2[this.state.num2.length-1]==="2") || (this.state.num2[this.state.num2.length-1]==="3") || (this.state.num2[this.state.num2.length-1]==="4") || (this.state.num2[this.state.num2.length-1]==="5") || (this.state.num2[this.state.num2.length-1]==="6") || (this.state.num2[this.state.num2.length-1]==="7") || (this.state.num2[this.state.num2.length-1]==="8") || (this.state.num2[this.state.num2.length-1]==="9")) && ((pressed === "+") || (pressed === "-") || (pressed === "*") || (pressed === "/")) && (this.state.dot2===true || this.state.dot2===false)){
@@ -282,7 +291,7 @@ class Calculator  extends React.Component {
                 equalSign: false,
                 dot2: false,
             });
-
+            return;
         }
 
         if(pressed === "AC" ){
@@ -302,8 +311,14 @@ class Calculator  extends React.Component {
                 dot2: false,
                 pressed: "",
             });
-
+            return;
         }
+        
+    }
+
+    handleClick(e){
+        
+        this.handleEvent(e);
 
     }
 
